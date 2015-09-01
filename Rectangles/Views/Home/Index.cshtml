@@ -6,12 +6,42 @@
 
 <html>
 <head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="content/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="content/css/overrides.css" />
+    <script type="text/javascript" src="content/bootstrap/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <title>Rectangles</title>
 </head>
 <body>
     <div>
-    
+        <div id="rect-header">
+            <span>
+            In each below section, input the verticies of each rectangle and this program will determine Intersection, Containment, and Adjacency of each rectangle.
+            </span>
+            <span>
+                Max coordinate size is out of 100 and all coordinates must be integers.  Rectangle will be drawn in clockwise fashion starting with the top left vertex.
+            </span>
+        </div>
+        @for (int i = 1; i <= 2; i++)
+        {
+            <div>
+                <span>Rectangle @i.ToString()</span>
+            @for (int j = 1; j <= 4; j++)
+            { 
+                <div id="rectangle-@i.ToString()" class="input-group">
+                    <span class="input-group-addon" id="rect-@i.ToString()-vertex-@j.ToString()-label">Vertex @j.ToString()</span>
+                    <input id="rectangle-@i.ToString()-vertex-@j.ToString()" class="form-control" type="text" aria-describedby="rectangle-@i.ToString()-vertex-@j.ToString()-label">
+                </div>
+            }
+            </div>
+        }
+        <div>
+            <button type="button" class="btn btn-default" id="_submitVertices">Submit</button>
+        </div>
     </div>
+    <script type="text/javascript">
+
+    </script>
 </body>
 </html>
