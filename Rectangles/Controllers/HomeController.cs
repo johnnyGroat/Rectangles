@@ -86,7 +86,7 @@ namespace Rectangles.Controllers
         }
         public bool HasContainment(RectanglePair rectanglePair)
         {
-            if (rectanglePair.rectangle1.xVertex1 <= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.yVertex1 >= rectanglePair.rectangle2.yVertex1 && rectanglePair.rectangle1.xVertex2 >= rectanglePair.rectangle2.xVertex2 && rectanglePair.rectangle1.yVertex2 <= rectanglePair.rectangle2.yVertex2)
+            if ((rectanglePair.rectangle1.xVertex1 <= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.yVertex1 >= rectanglePair.rectangle2.yVertex1 && rectanglePair.rectangle1.xVertex2 >= rectanglePair.rectangle2.xVertex2 && rectanglePair.rectangle1.yVertex2 <= rectanglePair.rectangle2.yVertex2) || (rectanglePair.rectangle2.xVertex1 <= rectanglePair.rectangle1.xVertex1 && rectanglePair.rectangle2.yVertex1 >= rectanglePair.rectangle1.yVertex1 && rectanglePair.rectangle2.xVertex2 >= rectanglePair.rectangle1.xVertex2 && rectanglePair.rectangle2.yVertex2 <= rectanglePair.rectangle1.yVertex2))
                 return true;
 
             return false;
