@@ -19,7 +19,7 @@ namespace Rectangles.Models
         public Rectangle rectangle1 { get; private set; }
         public Rectangle rectangle2 { get; private set; }
 
-        public List<RectangleProperties> rectangleProperties { get; set; }
+        public RectangleProperties rectangleProperties { get; set; }
 
         public RectanglePair(Rectangle rect1, Rectangle rect2)
         {
@@ -30,10 +30,10 @@ namespace Rectangles.Models
 
     }
 
-    public enum RectangleProperties
+    public class RectangleProperties
     {
-        Intersection = 0,
-        Containment,
-        Adjacency
+        public bool hasIntersection { get; set; }
+        public bool hasContainment { get; set; }
+        public bool hasAdjacency { get; set; }
     }
 }
