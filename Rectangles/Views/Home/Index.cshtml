@@ -43,14 +43,26 @@
         <div>
             <button type="button" class="btn btn-default" id="_submitVertices">Submit</button>
         </div>
+        <div id="gridResults">
+            <div>
+                Rectangles Have Containment: <span id="_haveContainment"></span>
+            </div>
+            <div>
+               Rectangles Have Adjacency: <span id="_haveAdjacency"></span>
+            </div>
+            <div>
+                Rectangles Have Intersection: <span id="_haveIntersection"></span>
+            </div>
+        </div>
     </div>
     <script type="text/javascript">
         $(function () {
             $('#_submitVertices').click(function () {
-             
+                ResetPropertyOutput();
+
                 var rectangle1Verticies = { xVertex1: $('#rectangle-1-vertex-1-x').val(), yVertex1: $('#rectangle-1-vertex-1-y').val(), xVertex2: $('#rectangle-1-vertex-2-x').val(), yVertex2: $('#rectangle-1-vertex-2-y').val() };         
                 var rectangle2Verticies = { xVertex1: $('#rectangle-2-vertex-1-x').val(), yVertex1: $('#rectangle-2-vertex-1-y').val(), xVertex2: $('#rectangle-2-vertex-2-x').val(), yVertex2: $('#rectangle-2-vertex-2-y').val() };
-
+                debugger;
                 $.ajax({
                     url: '/Home/CheckRectangles',
                     type: 'POST',
@@ -59,10 +71,48 @@
                     data: {
                         rectangle1Vertices: JSON.stringify(rectangle1Verticies),
                         rectangle2Vertices: JSON.stringify(rectangle2Verticies)
+                    },
+                    success: function (data) {
+                        OutputRectangleProperties(data.rectangleProperties);
                     }
                 });
             });
         });
+
+        function OutputRectangleProperties(properties)
+        {
+            if(properties.hasAdjacency)
+            {
+                $('#_haveAdjacency').html('True');
+            }
+            else
+            {
+                $('#_haveAdjacency').html('False');
+            }
+            if(properties.hasContainment)
+            {
+                $('#_haveContainment').html('True');
+            }
+            else
+            {
+                $('#_haveContainment').html('False');
+            }
+            if(properties.hasIntersection)
+            {
+                $('#_haveIntersection').html('True');
+            }
+            else
+            {
+                $('#_haveIntersection').html('False');
+            }
+        }
+
+        function ResetPropertyOutput()
+        {
+            $('#_haveIntersection').html('');
+            $('#_haveAdjacency').html('');
+            $('#_haveContainment').html('');
+        }
     </script>
 </body>
 </html>
