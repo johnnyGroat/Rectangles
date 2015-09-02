@@ -23,10 +23,52 @@ namespace Rectangles.Models
 
         public RectanglePair(Rectangle rect1, Rectangle rect2)
         {
-            rectangle1 = rect1;
-            rectangle2 = rect2;
+            rectangle1 = StandardizeVertices(rect1);
+            rectangle2 = StandardizeVertices(rect2);
         }
 
+        private Rectangle StandardizeVertices(Rectangle rectangle)
+        {
+            //straight swap them if the bottom right were defined first
+            if(rectangle.xVertex1 > rectangle.xVertex2 && rectangle.yVertex1 < rectangle.yVertex2)
+            {
+
+                int newX1 = rectangle.xVertex2;
+                int newY1 = rectangle.yVertex2;
+
+                rectangle.xVertex2 = rectangle.xVertex1;
+                rectangle.yVertex2 = rectangle.yVertex1;
+
+                rectangle.xVertex1 = newX1;
+                rectangle.yVertex1 = newY1;
+            }
+            //flip x and Y coordinates if top right were first
+            else if(rectangle.xVertex1 > rectangle.xVertex2 && rectangle.yVertex1 > rectangle.yVertex2)
+            {
+                int newX1 = rectangle.xVertex2;
+                int newY1 = rectangle.yVertex1;
+
+                rectangle.xVertex2 = rectangle.xVertex1;
+                rectangle.yVertex2 = rectangle.yVertex2;
+
+                rectangle.xVertex1 = newX1;
+                rectangle.yVertex1 = newY1;
+            }
+            //flip again if bottom left were defined first
+            else if(rectangle.xVertex1 < rectangle.xVertex2 && rectangle.yVertex1 < rectangle.yVertex2)
+            {
+                int newX1 = rectangle.xVertex1;
+                int newY1 = rectangle.yVertex2;
+
+                rectangle.xVertex2 = rectangle.xVertex2;
+                rectangle.yVertex2 = rectangle.yVertex1;
+
+                rectangle.xVertex1 = newX1;
+                rectangle.yVertex1 = newY1;
+            }
+
+            return rectangle;
+        }
 
     }
 
