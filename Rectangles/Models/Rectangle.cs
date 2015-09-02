@@ -25,6 +25,24 @@ namespace Rectangles.Models
         {
             rectangle1 = StandardizeVertices(rect1);
             rectangle2 = StandardizeVertices(rect2);
+
+            //if Rectangle 1 does not have the left most cooridinate, switch the designation of rectangle 1 and rectangle 2. (this makes logic a lot easier)
+            if(rectangle2.xVertex1 < rectangle1.xVertex1)
+            {
+                var placeholderRectangle = rectangle1;
+
+                rectangle1 = rectangle2;
+                rectangle2 = placeholderRectangle;
+            }
+            //if they're equal, then use the highest y-coordinate as rectangle 1
+            else if(rectangle2.xVertex1 == rectangle1.xVertex1 && rectangle2.yVertex1 > rectangle1.yVertex1)
+            {
+                var placeholderRectanlge = rectangle1;
+
+                rectangle1 = rectangle2;
+                rectangle2 = placeholderRectanlge;
+            }
+
         }
 
         private Rectangle StandardizeVertices(Rectangle rectangle)
