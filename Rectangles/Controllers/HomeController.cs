@@ -22,7 +22,7 @@ namespace Rectangles.Controllers
             RectangleProperties pairProperties = new RectangleProperties();
 
             pairProperties.hasContainment = HasContainment(rectanglePair);
-            pairProperties.hasAdjacency = HasAdjacency(rectanglePair);
+            pairProperties.hasAdjacency = (pairProperties.hasContainment ? HasAdjacency(rectanglePair, true) : HasAdjacency(rectanglePair));
             pairProperties.hasIntersection = (pairProperties.hasContainment ? false : HasIntersection(rectanglePair));
             
 
@@ -37,24 +37,52 @@ namespace Rectangles.Controllers
             return false;
         }
 
-        public bool HasAdjacency(RectanglePair rectanglePair)
+        public bool HasAdjacency(RectanglePair rectanglePair, bool hasContainment = false)
         {
-            //Right alignment
-            if (rectanglePair.rectangle1.xVertex2 == rectanglePair.rectangle2.xVertex1 && ((rectanglePair.rectangle1.yVertex2 >= rectanglePair.rectangle2.yVertex2 && rectanglePair.rectangle1.yVertex2 <= rectanglePair.rectangle2.yVertex1) ||(rectanglePair.rectangle1.yVertex1 >= rectanglePair.rectangle2.yVertex2 && rectanglePair.rectangle1.yVertex1 <= rectanglePair.rectangle2.yVertex1)))
+            if (!hasContainment)
             {
-                return true;
+                //Right alignment
+                if (rectanglePair.rectangle1.xVertex2 == rectanglePair.rectangle2.xVertex1 && ((rectanglePair.rectangle1.yVertex2 >= rectanglePair.rectangle2.yVertex2 && rectanglePair.rectangle1.yVertex2 <= rectanglePair.rectangle2.yVertex1) || (rectanglePair.rectangle1.yVertex1 >= rectanglePair.rectangle2.yVertex2 && rectanglePair.rectangle1.yVertex1 <= rectanglePair.rectangle2.yVertex1)))
+                {
+                    return true;
+                }
+                //Top alignment
+                else if (rectanglePair.rectangle1.yVertex1 == rectanglePair.rectangle2.yVertex2 && ((rectanglePair.rectangle1.xVertex2 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex2 <= rectanglePair.rectangle2.xVertex2) || (rectanglePair.rectangle1.xVertex1 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex1 <= rectanglePair.rectangle2.xVertex2)))
+                {
+                    return true;
+                }
+                //Bottom alignment
+                else if (rectanglePair.rectangle1.yVertex2 == rectanglePair.rectangle2.yVertex1 && ((rectanglePair.rectangle1.xVertex2 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex2 <= rectanglePair.rectangle2.xVertex2) || (rectanglePair.rectangle1.xVertex1 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex1 <= rectanglePair.rectangle2.xVertex2)))
+                {
+                    return true;
+                }
+                return false;
             }
-            //Top alignment
-            else if (rectanglePair.rectangle1.yVertex1 == rectanglePair.rectangle2.yVertex2 && ((rectanglePair.rectangle1.xVertex2 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex2 <= rectanglePair.rectangle2.xVertex2) || (rectanglePair.rectangle1.xVertex1 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex1 <= rectanglePair.rectangle2.xVertex2)))
+            //else we need to check the edges for alignment
+            else
             {
-                return true;
+                //Right alignment
+                if (rectanglePair.rectangle1.xVertex2 == rectanglePair.rectangle2.xVertex2)
+                {
+                    return true;
+                }
+                //Left alignment
+                else if (rectanglePair.rectangle1.xVertex1 == rectanglePair.rectangle2.xVertex1)
+                {
+                    return true;
+                }
+                //Top alignment
+                else if (rectanglePair.rectangle1.yVertex1 == rectanglePair.rectangle2.yVertex1)
+                {
+                    return true;
+                }
+                //Bottom alignment
+                else if (rectanglePair.rectangle1.yVertex2 == rectanglePair.rectangle2.yVertex2)
+                {
+                    return true;
+                }
+                return false;
             }
-            //Bottom alignment
-            else if (rectanglePair.rectangle1.yVertex2 == rectanglePair.rectangle2.yVertex1 && ((rectanglePair.rectangle1.xVertex2 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex2 <= rectanglePair.rectangle2.xVertex2) || (rectanglePair.rectangle1.xVertex1 >= rectanglePair.rectangle2.xVertex1 && rectanglePair.rectangle1.xVertex1 <= rectanglePair.rectangle2.xVertex2)))
-            {
-                return true;
-            }
-            return false;
         }
         public bool HasContainment(RectanglePair rectanglePair)
         {
