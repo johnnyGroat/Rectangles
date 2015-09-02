@@ -14,24 +14,28 @@
     <title>Rectangles</title>
 </head>
 <body>
-    <div>
+    <div class="span8">
         <div id="rect-header">
             <span>
-            In each below section, input the verticies of each rectangle and this program will determine Intersection, Containment, and Adjacency of each rectangle.
+            In each below section, input two opposite verticies of each rectangle and this program will determine Intersection, Containment, and Adjacency of each rectangle.
             </span>
             <span>
-                Max coordinate size is out of 100 and all coordinates must be integers.  Rectangle will be drawn in clockwise fashion starting with the top left vertex.
+                Max coordinate size is out of 100 and all coordinates must be integers.
             </span>
         </div>
         @for (int i = 1; i <= 2; i++)
         {
-            <div>
+            <div class="container">
                 <span>Rectangle @i.ToString()</span>
-            @for (int j = 1; j <= 4; j++)
+            @for (int j = 1; j <= 2; j++)
             { 
                 <div id="rectangle-@i.ToString()" class="input-group">
-                    <span class="input-group-addon" id="rect-@i.ToString()-vertex-@j.ToString()-label">Vertex @j.ToString()</span>
-                    <input id="rectangle-@i.ToString()-vertex-@j.ToString()" class="form-control" type="text" aria-describedby="rectangle-@i.ToString()-vertex-@j.ToString()-label">
+                    <span class="input-group-addon" id="rect-@i.ToString()-vertex-@j.ToString()-x-label">Vertex @j.ToString() X</span>
+                    <input id="rectangle-@i.ToString()-vertex-@j.ToString()-x" class="form-control" type="text" aria-describedby="rectangle-@i.ToString()-vertex-@j.ToString()-x-label">
+                </div>
+                <div id="rectangle-@i.ToString()" class="input-group">
+                    <span class="input-group-addon" id="rect-@i.ToString()-vertex-@j.ToString()-y-label">Vertex @j.ToString() Y</span>
+                    <input id="rectangle-@i.ToString()-vertex-@j.ToString()-y" class="form-control" type="text" aria-describedby="rectangle-@i.ToString()-vertex-@j.ToString()-y-label">
                 </div>
             }
             </div>
@@ -41,7 +45,24 @@
         </div>
     </div>
     <script type="text/javascript">
+        $(function () {
+            $('#_submitVertices').click(function () {
+             
+                var rectangle1Verticies = { xVertex1: $('#rectangle-1-vertex-1-x').val(), yVertex1: $('#rectangle-1-vertex-1-y').val(), xVertex2: $('#rectangle-1-vertex-2-x').val(), yVertex2: $('#rectangle-1-vertex-2-y').val() };         
+                var rectangle2Verticies = { xVertex1: $('#rectangle-2-vertex-1-x').val(), yVertex1: $('#rectangle-2-vertex-1-y').val(), xVertex2: $('#rectangle-2-vertex-2-x').val(), yVertex2: $('#rectangle-2-vertex-2-y').val() };
 
+                $.ajax({
+                    url: '/Home/CheckRectangles',
+                    type: 'POST',
+                    dataType: 'json',
+                    cache: false,
+                    data: {
+                        rectangle1Vertices: JSON.stringify(rectangle1Verticies),
+                        rectangle2Vertices: JSON.stringify(rectangle2Verticies)
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
