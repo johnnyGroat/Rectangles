@@ -55,10 +55,15 @@
             </div>
         </div>
     </div>
+    <canvas id="_rectangleCanvas" width="300" height="300" style="border: 1px solid #d3d3d3; margin-left:20px;margin-bottom: 50px;"></canvas>
     <script type="text/javascript">
+        //set our canvas elements as globals so we are able to reset them during consecutive runs
+        var canvasRectangle = document.getElementById('_rectangleCanvas');
+        var rectangleContext = canvasRectangle.getContext('2d');
         $(function () {
             $('#_submitVertices').click(function () {
                 ResetPropertyOutput();
+                ResetRectangleCanvas();
 
                 var rectangle1Verticies = { xVertex1: $('#rectangle-1-vertex-1-x').val(), yVertex1: $('#rectangle-1-vertex-1-y').val(), xVertex2: $('#rectangle-1-vertex-2-x').val(), yVertex2: $('#rectangle-1-vertex-2-y').val() };         
                 var rectangle2Verticies = { xVertex1: $('#rectangle-2-vertex-1-x').val(), yVertex1: $('#rectangle-2-vertex-1-y').val(), xVertex2: $('#rectangle-2-vertex-2-x').val(), yVertex2: $('#rectangle-2-vertex-2-y').val() };
@@ -74,6 +79,7 @@
                     },
                     success: function (data) {
                         OutputRectangleProperties(data.rectangleProperties);
+                        DrawRectangles(data.rectangle1, data.rectangle2);
                     }
                 });
             });
@@ -112,6 +118,30 @@
             $('#_haveIntersection').html('');
             $('#_haveAdjacency').html('');
             $('#_haveContainment').html('');
+        }
+
+        function DrawRectangles(rectangle1, rectangle2)
+        {
+            rectangleContext.beginPath();
+
+            //I'm subtracting 300 from the y coordinate here so that the point (0,0) is at the bottom of the canvas to mimic how I wrote the backend code
+            rectangleContext.rect(rectangle1.xVertex1, 300 -rectangle1.yVertex1, (rectangle1.xVertex2 - rectangle1.xVertex1), (rectangle1.yVertex1 - rectangle1.yVertex2));
+
+            rectangleContext.stroke();
+            rectangleContext.closePath();
+            rectangleContext.beginPath();
+
+            rectangleContext.rect(rectangle2.xVertex1, 300 -rectangle2.yVertex1, (rectangle2.xVertex2 - rectangle2.xVertex1), (rectangle2.yVertex1 - rectangle2.yVertex2));
+
+            rectangleContext.stroke();
+            rectangleContext.closePath();
+        }
+
+        function ResetRectangleCanvas()
+        {
+            rectangleContext.clearRect(0, 0, canvasRectangle.width, canvasRectangle.height);
+            //reset the context
+            rectangleContext = canvasRectangle.getContext('2d');
         }
     </script>
 </body>
